@@ -1,4 +1,3 @@
-const duplicateCheck = require("../config/duplicateCheck");
 const QuestionBank = require("../models/question_bank");
 // create and add new task in todo list database
 module.exports.create = async function (req, res) {
@@ -21,17 +20,24 @@ module.exports.create = async function (req, res) {
   }
   try {
     // check if question already exists or not
-    await duplicateCheck.questionAlreadyExists(req, res);
-
-    // insert question if it doesn't already exists
-    const question = await QuestionBank.create({
-      Query: req.body.Query,
-      Topic: req.body.Topic,
-      Tags: req.body.Tags,
+    const result = await QuestionBank.exists({
+      Query: req.body.Query.replace(/\s+/g, " ").trim(" "),
     });
-    if (question) {
-      return res.status(200).json({
-        message: "Question Sucessfully inserted",
+    if (!result) {
+      // insert question if it doesn't already exists
+      const question = await QuestionBank.create({
+        Query: req.body.Query,
+        Topic: req.body.Topic,
+        Tags: req.body.Tags,
+      });
+      if (question) {
+        return res.status(200).json({
+          message: "Question Sucessfully inserted",
+        });
+      }
+    } else {
+      return res.status(409).json({
+        message: `Question already exists`,
       });
     }
     //handle error case

@@ -9,7 +9,11 @@ To run the project we have to first clone the code into our vscode and then use 
 
 I have tried to cover all the possible basic validations
 According to the question I have defined some of the enums for the Topic and Tags field other than that no other value for Topic and Tags will be acceptable
+
 Enum for Topic is ["qualifying-criteria", "top-colleges", "exams", "finance"] and 
+
 Enum for tags is [ "stanford-university", "usa", "admission", "engineering", "top", "medicine", "law", "australia"]
+
 As specified in the question Query can be an only string so it can accept an only string, it will not accept the number or any other datatype.
+
 Extra space between the Query will not be considered as a new Question, it will give a question already exists.
